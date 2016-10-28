@@ -5,6 +5,7 @@ import java.util.TreeMap;
 public class Book
 {
    private String fullText;
+   private int length;
    public Book(String address)
    {
       try
@@ -13,7 +14,9 @@ public class Book
          Scanner scan = new Scanner(new FileReader(address));
          while(scan.hasNextLine())
          {
-            build.append(scan.nextLine().toLowerCase()+"\n");
+            String inLine = scan.nextLine().toLowerCase();
+            length+=inLine.length();
+            build.append(inLine+"\n");
          }
          fullText = build.toString();
       }
@@ -21,6 +24,10 @@ public class Book
       {
          e.printStackTrace(); 
       }
+   }
+   public int getLength()
+   {
+      return length;
    }
    public Map<Integer,String> searchFor(String goal)
    {
