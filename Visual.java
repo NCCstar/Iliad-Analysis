@@ -19,8 +19,8 @@ public class Visual extends JPanel
       int max=0;
       if(getWidth()>10)
       {
-         int[] data = new int[getWidth()-20];
-         int divX = LENGTH/data.length;// char per slot
+         int[] data = new int[getWidth()-18];
+         int divX = LENGTH/(data.length);// char per slot
          g.setFont(new Font("Arial",Font.PLAIN,10));
          for(int i=0;i<bookMarks.length;i++)
          {
@@ -32,19 +32,22 @@ public class Visual extends JPanel
          g.setColor(Color.black);
          for(int i:allNums)
          {
-            try{
-            int index = i/divX-1;
-            data[index]++;
-            if(data[index]>max)
+            int index=0;;
+            try
             {
-               max = data[index];
+               index = i/divX;
+               data[index]++;
+               if(data[index]>max)
+               {
+                  max = data[index];
+               } 
             }
-            }
-            catch(Exception e)
+            catch(ArrayIndexOutOfBoundsException e)
             {
-               Math.random();
-            }
+               System.out.println(index+", "+i);
+            }        
          }
+         System.out.println("------------");
          if(max>0)
          {
             final int RELATE = (getHeight()-10)/max;
@@ -70,6 +73,13 @@ public class Visual extends JPanel
             g.fillRect(9,i,1,1);
             g.fillRect(getWidth()-9,i,1,1);
          }
+         g.setColor(Color.blue);
+         String searched = "";
+         for(String i:new TreeSet<String>(map.values()))
+         {
+            searched+=i+", ";
+         }
+         g.drawString(searched,10,getHeight()-1);
       }
    }
 }
