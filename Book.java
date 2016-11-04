@@ -29,14 +29,34 @@ public class Book
    {
       return length;
    }
+   public int[] getBookMarks()
+   {
+      int[] ans = new int[24];
+      StringBuilder buffer = new StringBuilder(fullText);
+      int loc = buffer.indexOf("book");
+      int i=0;
+      while(loc!=-1)
+      {
+         if(i==0)
+            ans[i] = loc;
+         else
+            ans[i] = ans[i-1]+loc;
+         i++;
+         buffer.delete(0,loc+4);
+         loc = buffer.indexOf("book");
+      }
+      return ans;
+   }
    public Map<Integer,String> searchFor(String goal)
    {
       Map<Integer,String> toFill = new TreeMap();
       StringBuilder buffer = new StringBuilder(fullText);
       int loc = buffer.indexOf(goal);
+      int soFar = 0;
       while(loc!=-1)
       {
-         toFill.put(loc,buffer.substring(loc,loc+goal.length()));
+         toFill.put(loc+soFar,buffer.substring(loc,loc+goal.length()));
+         soFar+=loc;
          buffer.delete(0,loc+1);
          loc = buffer.indexOf(goal);
       }
