@@ -1,16 +1,29 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.util.*;
 public class Visual extends JPanel
 {
    private final int LENGTH;
    private Map<Integer,String> map;
+   private TreeMap<Integer,String> archive;
+   private String[] setArray;
+   private int setIndex;
    private int[] bookMarks;
    public Visual(int length,Map<Integer,String> map,int[] bkMrks)
    {
       LENGTH=length;
       this.map = map;
+      archive = new TreeMap(map);
       this.bookMarks = bkMrks;
+      Set<String> tempVals = new TreeSet(map.values());
+      setArray = new String[tempVals.size()];
+      int i = 0;
+      for(String ele:tempVals)
+      {
+         setArray[i++]=ele;
+      }
+      setIndex = -1;
    }
    public void paintComponent(Graphics g)
    {
@@ -80,6 +93,53 @@ public class Visual extends JPanel
             searched+=i+", ";
          }
          g.drawString(searched,10,getHeight()-1);
+      }
+   }
+   public void keyTyped(KeyEvent e)
+   {
+      int keyCode = e.getKeyCode();
+      switch(e.getKeyCode())
+      {
+         case KeyEvent.VK_R:
+            Set<String> putThese = Analysis.getSet();
+            Map<Integer,String> words = new TreeMap();
+            for(String i:putThese)
+            {
+               words.putAll(Analysis.book.searchFor(i));
+            }
+            map = words;
+            archive = new TreeMap(map);
+            Set<String> tempVals = new TreeSet(map.values());
+            setArray = new String[tempVals.size()];
+            int i = 0;
+            for(String ele:tempVals)
+            {
+               setArray[i++]=ele;
+            }
+            setIndex = -1;
+            break;
+         case KeyEvent.VK_N:
+            setIndex+=2;
+            setIndex%=setArray.length+1;
+            setIndex--;
+            map.clear();
+            map.putAll(archive);
+            if(setIndex>-1)
+            {
+               Iterator<Integer> iter = map.keySet().iterator();
+               while(iter.hasNext())
+               {
+                  Integer in = iter.next();
+                  if(!map.get(in).equals(setArray[setIndex]))
+                  {
+                     iter.remove();
+                  }
+               }        
+            }
+            repaint();
+            break;
+         default:
+            break;
       }
    }
 }
