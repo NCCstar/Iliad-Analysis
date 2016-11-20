@@ -15,7 +15,7 @@ public class Analysis
          words.putAll(book.searchFor(i));
       }
       JFrame frame = new JFrame("Chart");
-      frame.setSize(500,500);
+      frame.setSize(600,500);
       visual = new Visual(book.getLength(),words,book.getBookMarks());
       frame.setContentPane(visual);
       frame.setVisible(true);
