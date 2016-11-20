@@ -117,6 +117,7 @@ public class Visual extends JPanel
                setArray[i++]=ele;
             }
             setIndex = -1;
+            repaint();
             break;
          case KeyEvent.VK_N:
             setIndex+=2;
