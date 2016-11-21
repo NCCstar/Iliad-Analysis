@@ -9,10 +9,12 @@ public class Visual extends JPanel
    private HashMap<Integer,String> archive;
    private String[] setArray;
    private int setIndex;
+   private Book book;
    private int[] bookMarks;
-   public Visual(int length,Map<Integer,String> map,int[] bkMrks)
+   public Visual(int length,Map<Integer,String> map,int[] bkMrks,Book book)
    {
       LENGTH=length;
+      this.book=book;
       this.map = map;
       archive = new HashMap(map);
       this.bookMarks = bkMrks;
@@ -138,6 +140,10 @@ public class Visual extends JPanel
                }        
             }
             repaint();
+            break;
+         case KeyEvent.VK_A:
+            String input = JOptionPane.showInputDialog(null,"What word/phrase to append to current search?","Input",JOptionPane.QUESTION_MESSAGE);
+            map.put(book.searchFor(input));
             break;
          default:
             break;
